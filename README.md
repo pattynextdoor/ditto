@@ -1,5 +1,6 @@
 <p align="center">
 
+![Ditto GIF](https://media1.tenor.com/m/2-EIVpEdZXoAAAAC/ditto-pokemon.gif)
 <h3>Ditto transforms into your dev environment.</h3>
 
 [![Rust](https://img.shields.io/badge/Built_with-Rust-dea584?style=flat-square&logo=rust)](https://www.rust-lang.org/)
@@ -12,7 +13,7 @@
 
 A Dotfile manager CLI built as a Rust learning project with [Claude Code](https://claude.ai/code) as a coding partner (using the [`learning-opportunities`](https://github.com/DrCatHicks/learning-opportunities) skill). 
 
-All core logic was hand-typed. Tests and documentation were generated.
+All core logic was hand-typed. Tests, docs, CI actions and fluff features were generated.
 
 Extends upon GNU Stow functionality with support for hook setup. And has pretty spinners.
 
