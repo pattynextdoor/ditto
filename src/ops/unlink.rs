@@ -57,7 +57,11 @@ pub fn run(
                     // Only try to restore if there's a backup
                     if backup::has_backup(&target, &backup_dir)? {
                         backup::restore(&target, &backup_dir)?;
-                        ui.success(&format!("[{}] {} restored from backup", name, target.display()));
+                        ui.success(&format!(
+                            "[{}] {} restored from backup",
+                            name,
+                            target.display()
+                        ));
                     }
                 }
             }

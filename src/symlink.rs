@@ -72,7 +72,10 @@ mod tests {
 
     #[test]
     fn is_symlink_to_returns_false_for_nonexistent_path() {
-        assert!(!is_symlink_to(Path::new("/nonexistent"), Path::new("/other")));
+        assert!(!is_symlink_to(
+            Path::new("/nonexistent"),
+            Path::new("/other")
+        ));
     }
 
     #[test]

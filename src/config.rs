@@ -76,7 +76,9 @@ mod tests {
     fn load_parses_valid_ditto_toml() {
         let dir = tempfile::tempdir().unwrap();
         let toml_path = dir.path().join("ditto.toml");
-        std::fs::write(&toml_path, r#"
+        std::fs::write(
+            &toml_path,
+            r#"
 [settings]
 backup_dir = ".ditto-backup"
 
@@ -92,7 +94,9 @@ post_link = "source ~/.zshrc"
 files = [
   { src = "git/gitconfig", target = "~/.gitconfig" },
 ]
-"#).unwrap();
+"#,
+        )
+        .unwrap();
 
         let config = load(&toml_path).unwrap();
         assert_eq!(config.settings.backup_dir, ".ditto-backup");
@@ -105,7 +109,9 @@ files = [
     fn load_parses_package_with_hooks() {
         let dir = tempfile::tempdir().unwrap();
         let toml_path = dir.path().join("ditto.toml");
-        std::fs::write(&toml_path, r#"
+        std::fs::write(
+            &toml_path,
+            r#"
 [settings]
 backup_dir = ".ditto-backup"
 
@@ -117,7 +123,9 @@ files = [
 [packages.ssh.hooks]
 post_link = "chmod 700 ~/.ssh"
 pre_unlink = "echo unlinking ssh"
-"#).unwrap();
+"#,
+        )
+        .unwrap();
 
         let config = load(&toml_path).unwrap();
         let ssh = &config.packages["ssh"];
@@ -132,7 +140,9 @@ pre_unlink = "echo unlinking ssh"
     fn load_parses_package_with_platform_filter() {
         let dir = tempfile::tempdir().unwrap();
         let toml_path = dir.path().join("ditto.toml");
-        std::fs::write(&toml_path, r#"
+        std::fs::write(
+            &toml_path,
+            r#"
 [settings]
 backup_dir = ".ditto-backup"
 
@@ -141,7 +151,9 @@ platforms = ["macos"]
 files = [
   { src = "iterm2/prefs.plist", target = "~/Library/Preferences/prefs.plist" },
 ]
-"#).unwrap();
+"#,
+        )
+        .unwrap();
 
         let config = load(&toml_path).unwrap();
         let iterm = &config.packages["iterm2"];
@@ -167,7 +179,11 @@ files = [
     #[test]
     fn find_root_finds_ditto_toml_in_current_dir() {
         let dir = tempfile::tempdir().unwrap();
-        std::fs::write(dir.path().join("ditto.toml"), "[settings]\nbackup_dir = \".backup\"\n[packages]\n").unwrap();
+        std::fs::write(
+            dir.path().join("ditto.toml"),
+            "[settings]\nbackup_dir = \".backup\"\n[packages]\n",
+        )
+        .unwrap();
 
         // Change to the temp dir to test find_root
         let original_dir = std::env::current_dir().unwrap();

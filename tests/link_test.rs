@@ -25,7 +25,13 @@ fn link_creates_symlinks_for_all_packages() {
         .stdout(predicate::str::contains("linked"));
 
     assert!(target_file.exists());
-    assert!(target_file.symlink_metadata().unwrap().file_type().is_symlink());
+    assert!(
+        target_file
+            .symlink_metadata()
+            .unwrap()
+            .file_type()
+            .is_symlink()
+    );
 }
 
 #[test]
@@ -51,7 +57,13 @@ fn link_specific_package_only_links_that_package() {
         .assert()
         .success();
 
-    assert!(target_shell.symlink_metadata().unwrap().file_type().is_symlink());
+    assert!(
+        target_shell
+            .symlink_metadata()
+            .unwrap()
+            .file_type()
+            .is_symlink()
+    );
     assert!(!target_git.exists());
 }
 
@@ -107,7 +119,10 @@ fn link_warns_on_conflict_without_force() {
         .stdout(predicate::str::contains("already exists"));
 
     // Original file untouched
-    assert_eq!(std::fs::read_to_string(&target_file).unwrap(), "existing content");
+    assert_eq!(
+        std::fs::read_to_string(&target_file).unwrap(),
+        "existing content"
+    );
 }
 
 #[test]

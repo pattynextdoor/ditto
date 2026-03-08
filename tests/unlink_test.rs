@@ -24,7 +24,13 @@ fn unlink_removes_symlinks() {
         .assert()
         .success();
 
-    assert!(target_file.symlink_metadata().unwrap().file_type().is_symlink());
+    assert!(
+        target_file
+            .symlink_metadata()
+            .unwrap()
+            .file_type()
+            .is_symlink()
+    );
 
     // Unlink
     Command::cargo_bin("ditto")
@@ -93,7 +99,13 @@ fn unlink_specific_package_only_removes_that_package() {
         .success();
 
     assert!(!target_shell.exists());
-    assert!(target_git.symlink_metadata().unwrap().file_type().is_symlink());
+    assert!(
+        target_git
+            .symlink_metadata()
+            .unwrap()
+            .file_type()
+            .is_symlink()
+    );
 }
 
 #[test]
@@ -126,5 +138,11 @@ fn unlink_dry_run_does_not_remove_symlinks() {
         .success()
         .stdout(predicate::str::contains("would remove symlink"));
 
-    assert!(target_file.symlink_metadata().unwrap().file_type().is_symlink());
+    assert!(
+        target_file
+            .symlink_metadata()
+            .unwrap()
+            .file_type()
+            .is_symlink()
+    );
 }

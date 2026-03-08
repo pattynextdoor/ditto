@@ -17,7 +17,11 @@ pub fn run(config: &DittoConfig, root: &Path, ui: &Ui) -> Result<()> {
             if is_symlink_to(&target, &source) {
                 ui.success(&format!("{} --> {} [linked]", name, target.display()));
             } else if target.exists() {
-                ui.warning(&format!("{} --> {} [conflict: file exists]", name, target.display()));
+                ui.warning(&format!(
+                    "{} --> {} [conflict: file exists]",
+                    name,
+                    target.display()
+                ));
             } else {
                 ui.info(&format!("{} --> {} [not linked]", name, target.display()));
             }

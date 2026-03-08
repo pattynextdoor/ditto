@@ -39,7 +39,13 @@ fn add_moves_file_into_repo_and_creates_symlink() {
     );
 
     // Original location is now a symlink
-    assert!(file_to_add.symlink_metadata().unwrap().file_type().is_symlink());
+    assert!(
+        file_to_add
+            .symlink_metadata()
+            .unwrap()
+            .file_type()
+            .is_symlink()
+    );
 
     // ditto.toml was updated
     let toml_content = std::fs::read_to_string(repo_dir.path().join("ditto.toml")).unwrap();

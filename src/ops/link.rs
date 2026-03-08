@@ -61,7 +61,10 @@ pub fn run(
             if target.exists() {
                 if force {
                     if dry_run {
-                        ui.dry_run(&format!("would backup {} before overwriting", target.display()));
+                        ui.dry_run(&format!(
+                            "would backup {} before overwriting",
+                            target.display()
+                        ));
                     } else {
                         // Backup then remove
                         let backup_dir = root.join(&config.settings.backup_dir);
@@ -82,14 +85,14 @@ pub fn run(
             }
 
             if dry_run {
-                ui.dry_run(&format!("would create symlink {} --> {}", name, target.display()));
-            } else {
-                create_symlink(&source, &target)?;
-                ui.success(&format!(
-                    "{} --> {} linked",
+                ui.dry_run(&format!(
+                    "would create symlink {} --> {}",
                     name,
                     target.display()
                 ));
+            } else {
+                create_symlink(&source, &target)?;
+                ui.success(&format!("{} --> {} linked", name, target.display()));
             }
         }
 

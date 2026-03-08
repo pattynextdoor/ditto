@@ -14,7 +14,7 @@ impl std::fmt::Display for Platform {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match self {
             Platform::MacOs => write!(f, "macos"),
-            Platform::Linux=> write!(f, "linux"),
+            Platform::Linux => write!(f, "linux"),
         }
     }
 }
@@ -23,7 +23,7 @@ pub fn current_platform() -> Platform {
     match std::env::consts::OS {
         "macos" => Platform::MacOs,
         "linux" => Platform::Linux,
-        _ => panic!("Ditto is not supported on your platform.")
+        _ => panic!("Ditto is not supported on your platform."),
     }
 }
 
@@ -32,7 +32,7 @@ pub fn home_dir() -> Result<PathBuf> {
 
     match dir {
         Some(dir) => Ok(dir),
-        None => Err(anyhow::anyhow!("Home directory not set."))
+        None => Err(anyhow::anyhow!("Home directory not set.")),
     }
 }
 
@@ -41,7 +41,7 @@ pub fn relative_to_home(path: &Path) -> Result<PathBuf> {
 
     match path.strip_prefix(&home) {
         Ok(relative) => Ok(relative.to_path_buf()),
-        Err(_) => Err(DittoError::NotInHome(path.to_path_buf()).into())
+        Err(_) => Err(DittoError::NotInHome(path.to_path_buf()).into()),
     }
 }
 

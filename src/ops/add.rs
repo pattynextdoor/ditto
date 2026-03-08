@@ -28,9 +28,9 @@ pub fn run(
     }
 
     // Compute where it goes in the repo: root/package/filename
-    let file_name = file_path
-        .file_name()
-        .ok_or_else(|| anyhow::anyhow!("Could not determine filename for {}", file_path.display()))?;
+    let file_name = file_path.file_name().ok_or_else(|| {
+        anyhow::anyhow!("Could not determine filename for {}", file_path.display())
+    })?;
     let dest = root.join(package).join(file_name);
 
     // The src path relative to the repo root (e.g. "shell/zshrc")
@@ -40,8 +40,15 @@ pub fn run(
     let target_relative = format!("~/{}", relative_to_home(&file_path)?.display());
 
     if dry_run {
-        ui.dry_run(&format!("would move {} into repo at {}", file_path.display(), dest.display()));
-        ui.dry_run(&format!("would link {} --> {}", target_relative, src_relative));
+        ui.dry_run(&format!(
+            "would move {} into repo at {}",
+            file_path.display(),
+            dest.display()
+        ));
+        ui.dry_run(&format!(
+            "would link {} --> {}",
+            target_relative, src_relative
+        ));
         ui.dry_run(&format!("would update config at {}", config_path.display()));
         return Ok(());
     }
@@ -53,11 +60,19 @@ pub fn run(
 
     // Move the file into the repo
     std::fs::rename(&file_path, &dest)?;
-    ui.success(&format!("moved {} into repo at {}", file_path.display(), dest.display()));
+    ui.success(&format!(
+        "moved {} into repo at {}",
+        file_path.display(),
+        dest.display()
+    ));
 
     // Replace with a symlink pointing back to the repo copy
     create_symlink(&dest, &file_path)?;
-    ui.success(&format!("linked {} --> {}", file_path.display(), dest.display()));
+    ui.success(&format!(
+        "linked {} --> {}",
+        file_path.display(),
+        dest.display()
+    ));
 
     // Update ditto.toml with the new file mapping
     let content = std::fs::read_to_string(config_path)?;
