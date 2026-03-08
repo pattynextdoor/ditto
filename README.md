@@ -3,9 +3,10 @@
 ![Ditto GIF](https://media1.tenor.com/m/2-EIVpEdZXoAAAAC/ditto-pokemon.gif)
 <h3>Ditto transforms into your dev environment.</h3>
 
+[![Crates.io](https://img.shields.io/crates/v/ditto-dots?style=flat-square)](https://crates.io/crates/ditto-dots)
 [![Rust](https://img.shields.io/badge/Built_with-Rust-dea584?style=flat-square&logo=rust)](https://www.rust-lang.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue?style=flat-square)](LICENSE)
-[![Status](https://img.shields.io/badge/Status-WIP-orange?style=flat-square)](#status)
+[![CI](https://img.shields.io/github/actions/workflow/status/pattynextdoor/ditto/ci.yml?style=flat-square&label=CI)](https://github.com/pattynextdoor/ditto/actions)
 
 </p>
 
@@ -19,7 +20,23 @@ Extends upon GNU Stow functionality with support for hook setup. And has pretty 
 
 ## Install
 
+**Homebrew (macOS):**
+
 ```sh
+brew install pattynextdoor/tap/ditto
+```
+
+**Cargo:**
+
+```sh
+cargo install ditto-dots
+```
+
+**From source:**
+
+```sh
+git clone https://github.com/pattynextdoor/ditto.git
+cd ditto
 cargo install --path .
 ```
 
@@ -109,7 +126,7 @@ Packages group related files. Each can have platform filters and pre/post hooks 
 
 ## Status
 
-Ditto is a **work in progress**. The project structure and core utilities are in place; command implementations are actively being built. macOS and Linux only.
+Ditto is functional and published on [crates.io](https://crates.io/crates/ditto-dots). macOS and Linux only.
 
 ## License
 
