@@ -1,8 +1,17 @@
 [package]
-name = "ditto"
+name = "ditto-dots"
 version = "0.1.0"
 edition = "2024"
 description = "A dotfile manager that transforms your dev environment"
+license = "MIT"
+repository = "https://github.com/pattynextdoor/ditto"
+readme = "README.md"
+keywords = ["dotfiles", "symlink", "cli", "stow"]
+categories = ["command-line-utilities"]
+
+[[bin]]
+name = "ditto"
+path = "src/main.rs"
 
 [dependencies]
 clap = { version = "4", features = ["derive"] }

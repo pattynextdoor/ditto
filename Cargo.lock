@@ -217,7 +217,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "ditto"
+name = "ditto-dots"
 version = "0.1.0"
 dependencies = [
  "anyhow",
