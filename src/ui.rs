@@ -1,4 +1,6 @@
-use console::{Style, style};
+use std::time::Duration;
+
+use console::style;
 use indicatif::{ProgressBar, ProgressStyle};
 
 pub struct Ui {
@@ -36,7 +38,7 @@ impl Ui {
 
         spinner.set_style(ProgressStyle::default_spinner());
         spinner.set_message(message.to_string());
-        spinner.enable_steady_tick(std::time::Duration::from_millis(80));
+        spinner.enable_steady_tick(Duration::from_millis(80));
         spinner
     }
 
