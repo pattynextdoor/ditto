@@ -38,7 +38,7 @@ pub struct Hooks {
 }
 
 pub fn load(path: &Path) -> Result<DittoConfig> {
-    let file_contents = fs::read_to_string(&path)?;
+    let file_contents = fs::read_to_string(path)?;
 
     let config: DittoConfig = toml::from_str(&file_contents)?;
     Ok(config)

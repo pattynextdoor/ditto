@@ -1,3 +1,4 @@
+#![allow(deprecated)]
 mod common;
 
 use assert_cmd::Command;

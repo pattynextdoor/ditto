@@ -40,10 +40,10 @@ pub fn run(
         }
 
         // Run pre-link hooks
-        if let Some(hooks) = &package.hooks {
-            if let Some(cmd) = &hooks.pre_link {
-                hooks::run_hooks(cmd)?;
-            }
+        if let Some(hooks) = &package.hooks
+            && let Some(cmd) = &hooks.pre_link
+        {
+            hooks::run_hooks(cmd)?;
         }
 
         // Map package files
@@ -97,10 +97,10 @@ pub fn run(
         }
 
         // Run post-link hooks
-        if let Some(hooks) = &package.hooks {
-            if let Some(cmd) = &hooks.post_link {
-                hooks::run_hooks(cmd)?;
-            }
+        if let Some(hooks) = &package.hooks
+            && let Some(cmd) = &hooks.post_link
+        {
+            hooks::run_hooks(cmd)?;
         }
     }
 

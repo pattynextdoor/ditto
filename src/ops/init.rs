@@ -22,7 +22,7 @@ pub fn run(url: &str, path: &Path, packages: &[String], dry_run: bool, ui: &Ui) 
     }
 
     let config = crate::config::load(&path.join("ditto.toml"))?;
-    crate::ops::link::run(&config, path, packages, false, dry_run, &ui)?;
+    crate::ops::link::run(&config, path, packages, false, dry_run, ui)?;
     ui.success("Ditto transformed into your dev environment!");
     Ok(())
 }

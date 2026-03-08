@@ -36,10 +36,10 @@ pub fn run(
 
     for (name, package) in packages_to_unlink {
         // Run pre-unlink hooks
-        if let Some(hooks) = &package.hooks {
-            if let Some(cmd) = &hooks.pre_unlink {
-                hooks::run_hooks(cmd)?;
-            }
+        if let Some(hooks) = &package.hooks
+            && let Some(cmd) = &hooks.pre_unlink
+        {
+            hooks::run_hooks(cmd)?;
         }
 
         // Remove symlinks from mapped package files
@@ -68,10 +68,10 @@ pub fn run(
         }
 
         // Run post-unlink hooks
-        if let Some(hooks) = &package.hooks {
-            if let Some(cmd) = &hooks.post_unlink {
-                hooks::run_hooks(cmd)?;
-            }
+        if let Some(hooks) = &package.hooks
+            && let Some(cmd) = &hooks.post_unlink
+        {
+            hooks::run_hooks(cmd)?;
         }
     }
     ui.success("Symlinks removed.");
