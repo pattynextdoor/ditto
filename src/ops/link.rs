@@ -34,7 +34,7 @@ pub fn run(
             let current = current_platform().to_string();
 
             if !platforms.contains(&current) {
-                ui.info(&format!("skipping {} (wrong platform)", name));
+                ui.info(&format!("skipping {} (not on {})", name, current));
                 continue;
             }
         }
@@ -53,7 +53,7 @@ pub fn run(
 
             // Skip already-linked files
             if is_symlink_to(&target, &source) {
-                ui.info(&format!("{} already linked", target.display()));
+                ui.info(&format!("{} already linked, skipping", target.display()));
                 continue;
             }
 
@@ -61,7 +61,7 @@ pub fn run(
             if target.exists() {
                 if force {
                     if dry_run {
-                        ui.dry_run(&format!("would backup {}", target.display()));
+                        ui.dry_run(&format!("would backup {} before overwriting", target.display()));
                     } else {
                         // Backup then remove
                         let backup_dir = root.join(&config.settings.backup_dir);
@@ -70,7 +70,7 @@ pub fn run(
                     }
                 } else {
                     ui.warning(&format!(
-                        "{} conflict, use --force to overwrite",
+                        "{} already exists, use --force to overwrite",
                         target.display()
                     ));
                     continue;
@@ -82,14 +82,14 @@ pub fn run(
             }
 
             if dry_run {
-                ui.dry_run(&format!("would link {} --> {}", name, target.display()));
+                ui.dry_run(&format!("would create symlink {} --> {}", name, target.display()));
             } else {
                 create_symlink(&source, &target)?;
                 ui.success(&format!(
-                    "{} --> {} symlink created",
+                    "{} --> {} linked",
                     name,
                     target.display()
-                ))
+                ));
             }
         }
 
@@ -101,5 +101,6 @@ pub fn run(
         }
     }
 
+    ui.success("All symlinks set.");
     Ok(())
 }

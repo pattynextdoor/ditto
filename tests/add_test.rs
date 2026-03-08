@@ -29,7 +29,7 @@ fn add_moves_file_into_repo_and_creates_symlink() {
         .assert()
         .success()
         .stdout(predicate::str::contains("moved"))
-        .stdout(predicate::str::contains("symlinked"));
+        .stdout(predicate::str::contains("linked"));
 
     // File is in the repo
     assert!(repo_dir.path().join("shell/zshrc").exists());

@@ -124,7 +124,7 @@ fn unlink_dry_run_does_not_remove_symlinks() {
         .current_dir(repo_dir.path())
         .assert()
         .success()
-        .stdout(predicate::str::contains("would unlink"));
+        .stdout(predicate::str::contains("would remove symlink"));
 
     assert!(target_file.symlink_metadata().unwrap().file_type().is_symlink());
 }

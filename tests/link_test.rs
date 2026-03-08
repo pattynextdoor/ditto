@@ -22,7 +22,7 @@ fn link_creates_symlinks_for_all_packages() {
         .current_dir(repo_dir.path())
         .assert()
         .success()
-        .stdout(predicate::str::contains("symlink created"));
+        .stdout(predicate::str::contains("linked"));
 
     assert!(target_file.exists());
     assert!(target_file.symlink_metadata().unwrap().file_type().is_symlink());
@@ -104,7 +104,7 @@ fn link_warns_on_conflict_without_force() {
         .current_dir(repo_dir.path())
         .assert()
         .success()
-        .stdout(predicate::str::contains("conflict"));
+        .stdout(predicate::str::contains("already exists"));
 
     // Original file untouched
     assert_eq!(std::fs::read_to_string(&target_file).unwrap(), "existing content");
@@ -128,7 +128,7 @@ fn link_dry_run_does_not_create_symlinks() {
         .current_dir(repo_dir.path())
         .assert()
         .success()
-        .stdout(predicate::str::contains("would link"));
+        .stdout(predicate::str::contains("would create symlink"));
 
     assert!(!target_file.exists());
 }

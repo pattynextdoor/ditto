@@ -63,7 +63,7 @@ pub fn run(config: &DittoConfig, root: &Path, packages: &[String], ui: &Ui) -> R
     }
 
     if !has_diffs {
-        ui.info("No differences found");
+        ui.info("Everything in sync.");
     }
 
     Ok(())

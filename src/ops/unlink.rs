@@ -49,14 +49,15 @@ pub fn run(
 
             if is_symlink_to(&target, &source) {
                 if dry_run {
-                    ui.dry_run(&format!("would unlink {}", target.display()));
+                    ui.dry_run(&format!("would remove symlink {}", target.display()));
                 } else {
                     remove_symlink(&target)?;
-                    ui.success(&format!("{} unlinked", target.display()));
+                    ui.success(&format!("[{}] {} unlinked", name, target.display()));
 
                     // Only try to restore if there's a backup
                     if backup::has_backup(&target, &backup_dir)? {
                         backup::restore(&target, &backup_dir)?;
+                        ui.success(&format!("[{}] {} restored from backup", name, target.display()));
                     }
                 }
             }
@@ -69,5 +70,6 @@ pub fn run(
             }
         }
     }
+    ui.success("Symlinks removed.");
     Ok(())
 }
