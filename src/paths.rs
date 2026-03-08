@@ -54,3 +54,42 @@ pub fn expand_tilde(path: &str) -> Result<PathBuf> {
         Ok(PathBuf::from(path))
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn expand_tilde_converts_home_prefix_to_absolute_path() {
+        let result = expand_tilde("~/.zshrc").unwrap();
+        let home = home_dir().unwrap();
+        assert_eq!(result, home.join(".zshrc"));
+    }
+
+    #[test]
+    fn expand_tilde_leaves_absolute_paths_unchanged() {
+        let result = expand_tilde("/etc/hosts").unwrap();
+        assert_eq!(result, PathBuf::from("/etc/hosts"));
+    }
+
+    #[test]
+    fn relative_to_home_strips_home_prefix() {
+        let home = home_dir().unwrap();
+        let path = home.join(".config/ditto");
+        let result = relative_to_home(&path).unwrap();
+        assert_eq!(result, PathBuf::from(".config/ditto"));
+    }
+
+    #[test]
+    fn relative_to_home_rejects_paths_outside_home() {
+        let result = relative_to_home(Path::new("/tmp/outside"));
+        assert!(result.is_err());
+    }
+
+    #[test]
+    fn platform_displays_as_lowercase_string() {
+        let platform = current_platform();
+        let display = platform.to_string();
+        assert!(display == "macos" || display == "linux");
+    }
+}
