@@ -10,7 +10,9 @@
 
 ---
 
-A Dotfile manager CLI built as a Rust learning project with [Claude Code](https://claude.ai/code) as a coding partner (using the [`learning-opportunities`](https://github.com/DrCatHicks/learning-opportunities) skill). All core logic was hand-typed; Claude served as a teacher, not an author. You could use it too if you want.
+A Dotfile manager CLI built as a Rust learning project with [Claude Code](https://claude.ai/code) as a coding partner (using the [`learning-opportunities`](https://github.com/DrCatHicks/learning-opportunities) skill). 
+
+All core logic was hand-typed. Tests and documentation were generated.
 
 Extends upon GNU Stow functionality with support for hook setup. And has pretty spinners.
 
