@@ -9,21 +9,34 @@ fn setup_bare_repo(target_path: &str) -> tempfile::TempDir {
     let bare_dir = tempfile::tempdir().unwrap();
 
     // Init a bare repo
-    std::process::Command::new("git")
+    let out = std::process::Command::new("git")
         .args(["init", "--bare"])
         .arg(bare_dir.path())
         .output()
         .unwrap();
+    assert!(out.status.success(), "git init --bare failed");
 
-    // Create a working clone, add files, push
-    std::process::Command::new("git")
+    // Create a working clone
+    let work = work_dir.path().join("work");
+    let out = std::process::Command::new("git")
         .args(["clone"])
         .arg(bare_dir.path())
-        .arg(work_dir.path().join("work"))
+        .arg(&work)
         .output()
         .unwrap();
+    assert!(out.status.success(), "git clone failed");
 
-    let work = work_dir.path().join("work");
+    // Configure git user (CI runners may not have this set)
+    std::process::Command::new("git")
+        .args(["config", "user.email", "test@test.com"])
+        .current_dir(&work)
+        .output()
+        .unwrap();
+    std::process::Command::new("git")
+        .args(["config", "user.name", "Test"])
+        .current_dir(&work)
+        .output()
+        .unwrap();
 
     let toml_content = format!(
         "[settings]\nbackup_dir = \".ditto-backup\"\n\n\
@@ -34,23 +47,34 @@ fn setup_bare_repo(target_path: &str) -> tempfile::TempDir {
     std::fs::create_dir_all(work.join("shell")).unwrap();
     std::fs::write(work.join("shell/.zshrc"), "# managed by ditto").unwrap();
 
-    std::process::Command::new("git")
+    let out = std::process::Command::new("git")
         .args(["add", "."])
         .current_dir(&work)
         .output()
         .unwrap();
+    assert!(out.status.success(), "git add failed");
 
-    std::process::Command::new("git")
+    let out = std::process::Command::new("git")
         .args(["commit", "-m", "init"])
         .current_dir(&work)
         .output()
         .unwrap();
+    assert!(
+        out.status.success(),
+        "git commit failed: {}",
+        String::from_utf8_lossy(&out.stderr)
+    );
 
-    std::process::Command::new("git")
+    let out = std::process::Command::new("git")
         .args(["push"])
         .current_dir(&work)
         .output()
         .unwrap();
+    assert!(
+        out.status.success(),
+        "git push failed: {}",
+        String::from_utf8_lossy(&out.stderr)
+    );
 
     bare_dir
 }
@@ -104,7 +128,7 @@ fn init_fails_with_invalid_repo_url() {
 }
 
 #[test]
-fn init_dry_run_does_not_clone() {
+fn init_dry_run_does_not_create_symlinks() {
     let target_dir = tempfile::tempdir().unwrap();
     let target_file = target_dir.path().join(".zshrc");
     let clone_dest = tempfile::tempdir().unwrap();
@@ -122,7 +146,9 @@ fn init_dry_run_does_not_clone() {
         .assert()
         .success();
 
+    // Repo was cloned (dry-run only affects linking)
+    assert!(clone_path.join("ditto.toml").exists());
+
     // Symlinks should not be created in dry-run
-    // (repo is still cloned -- dry-run only affects linking)
     assert!(!target_file.exists());
 }
